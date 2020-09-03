@@ -1,13 +1,23 @@
 from datetime import datetime, date
 
-
 class Employee:
+
     def __init__(self, name, surname, email, phone, salary):
         self.name = name
         self.surname = surname
         self.email = email
         self.phone = phone
         self.salary = salary
+        self.validate_email()
+        with open('e.txt', 'a+') as file:
+            file.write(self.email + '\n')
+
+
+    def validate_email(self):
+        with open('e.txt') as file:
+            lines = file.read().split('\n')
+            if self.email in lines:
+                raise ValueError('User with such email already exists')
 
     def work(self):
         return 'I came to the office'
@@ -80,6 +90,8 @@ class Candidate:
         self.main_skill = main_skill
         self.main_skill_grade = main_skill_grade
 
+    def work(self):
+        raise UnableToWorkException("I'm not hired yet, lol")
 
 class Vacancy:
 
@@ -87,3 +99,7 @@ class Vacancy:
         self.title = title
         self.main_skill = main_skill
         self.main_skill_level = main_skill_level
+
+
+class UnableToWorkException(Exception):
+    pass
